@@ -1,0 +1,45 @@
+<div fxLayout="column" fxLayoutAlign="start center" class="component-container">
+  <h1 class="head-title">Cotizaciones</h1>
+  <article [ngStyle]="{ margin: '100px' }">
+    <mat-card>
+      <mat-card-content [ngStyle]="{ padding: '30px' }">
+        <form [formGroup]="formulario">
+          <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center" fxLayoutGap="30px">
+            <div fxLayout="column" fxLayoutAlign="start center">
+              <h3>De</h3>
+              <mat-form-field>
+                <mat-label>Seleccione una moneda..</mat-label>
+                <mat-select formControlName="campoDe">
+                  <mat-option *ngFor="let currency of currencieList" [value]="currency">{{ currency }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start center">
+              <h3>A</h3>
+              <mat-form-field>
+                <mat-label>Seleccione una moneda..</mat-label>
+                <mat-select formControlName="campoA">
+                  <mat-option *ngFor="let currency of currencieList" [value]="currency">{{ currency }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-form-field>
+              <mat-label>Cantidad</mat-label>
+              <input matInput type="number" placeholder="Cantidad" formControlName="cantidad">
+              <mat-error *ngIf="formulario.get('cantidad').hasError('required')">Campo requerido</mat-error>
+              <mat-error *ngIf="formulario.get('cantidad').hasError('min')">Cantidad debe ser mayor a 0</mat-error>
+            </mat-form-field>
+            <h4 *ngIf="mostrarResultado">{{ cotizacionResult?.amount }} {{ cotizacionResult?.base }} equivale a {{ cotizacionResult?.ratesValue[0] }} {{ cotizacionResult?.ratesKey[0] }}</h4>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="50px" class="button-container">
+            <button mat-raised-button color="warn" type="button" (click)="cancelar()">Cancelar</button>
+            <button mat-raised-button type="button" (click)="calcular()" [disabled]="isButtonDisabled()" color="primary" *ngIf="!isLoading">Calcular</button>
+            <mat-spinner [diameter]="30" *ngIf="isLoading"></mat-spinner>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </article>
+</div>

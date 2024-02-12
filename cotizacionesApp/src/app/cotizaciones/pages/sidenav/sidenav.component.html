@@ -1,0 +1,59 @@
+<!-- Desktop -->
+<mat-drawer-container fullscreen *ngIf="!mobileQuery.matches">
+  <mat-drawer mode="side" opened>
+    <mat-toolbar color="primary">
+      <span>Men&uacute;</span>
+    </mat-toolbar>
+    <mat-nav-list color="primary">
+      <mat-list-item *ngFor="let item of sideBarItems"
+                      [routerLink]="item.url"
+                      [ngStyle]="{ color: 'white' }"
+                      >
+                      <mat-icon>{{ item.icon }}</mat-icon>
+                      {{ item.label }}
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content class="container">
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+
+</mat-drawer-container>
+
+  <!-- Mobile -->
+  <mat-sidenav-container fullscreen *ngIf="mobileQuery.matches">
+    <mat-sidenav #side mode="push" [ngStyle]="{ width: '250px' }">
+      <mat-toolbar color="primary">
+        <span>Men&uacute;</span>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="side.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </mat-toolbar>
+
+      <mat-nav-list color="primary">
+        <mat-list-item *ngFor="let item of sideBarItems"
+                        [routerLink]="item.url"
+                        (click)="side.toggle()"
+                        [ngStyle]="{ color: '#673ab7' }"
+                        >
+                        <mat-icon>{{ item.icon }}</mat-icon>
+                        {{ item.label }}
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="side.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-container>
+
+
+

@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start center" class="component-container">
   <h1 class="head-title">Cotizaciones</h1>
-  <article [ngStyle]="{ margin: '100px' }">
+  <article class="cotizaciones-container">
     <mat-card>
       <mat-card-content [ngStyle]="{ padding: '30px' }">
         <form [formGroup]="formulario">
@@ -10,7 +10,7 @@
               <mat-form-field>
                 <mat-label>Seleccione una moneda..</mat-label>
                 <mat-select formControlName="campoDe">
-                  <mat-option *ngFor="let currency of currencieList" [value]="currency">{{ currency }}</mat-option>
+                  <mat-option *ngFor="let moneda of listaMonedas" [value]="moneda">{{ moneda }}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -19,7 +19,7 @@
               <mat-form-field>
                 <mat-label>Seleccione una moneda..</mat-label>
                 <mat-select formControlName="campoA">
-                  <mat-option *ngFor="let currency of currencieList" [value]="currency">{{ currency }}</mat-option>
+                  <mat-option *ngFor="let moneda of listaMonedas" [value]="moneda">{{ moneda }}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -31,7 +31,7 @@
               <mat-error *ngIf="formulario.get('cantidad').hasError('required')">Campo requerido</mat-error>
               <mat-error *ngIf="formulario.get('cantidad').hasError('min')">Cantidad debe ser mayor a 0</mat-error>
             </mat-form-field>
-            <h4 *ngIf="mostrarResultado">{{ cotizacionResult?.amount }} {{ cotizacionResult?.base }} equivale a {{ cotizacionResult?.ratesValue[0] }} {{ cotizacionResult?.ratesKey[0] }}</h4>
+            <h4 *ngIf="mostrarResultado">{{ resultadoCotizacion?.amount }} {{ resultadoCotizacion?.base }} equivale a {{ resultadoCotizacion?.ratesValue[0] }} {{ resultadoCotizacion?.ratesKey[0] }}</h4>
           </div>
           <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="50px" class="button-container">
             <button mat-raised-button color="warn" type="button" (click)="cancelar()">Cancelar</button>

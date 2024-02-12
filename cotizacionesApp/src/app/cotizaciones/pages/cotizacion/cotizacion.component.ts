@@ -12,13 +12,11 @@ import { SnackbarService } from 'src/app/shared/snackbar/snackbar.service';
 export class CotizacionComponent implements OnInit {
 
   formulario: FormGroup;
-  currencieList: Object[] = [];
+  listaMonedas: Object[] = [];
   isLoading: boolean = false;
-  cotizacionResult: CurrencyConvertResponse;
-  ratesResponse: number;
+  resultadoCotizacion: CurrencyConvertResponse;
   mostrarResultado: boolean = false;
-  durationInSeconds: 2;
-  message: string = 'Ha ocurrido un error'
+  mensajeError: string = 'Ha ocurrido un error'
 
   constructor( protected cotizacionesService: CotizacionesService,
                private fb: FormBuilder,
@@ -43,7 +41,7 @@ export class CotizacionComponent implements OnInit {
 
   findAllCurrencies() {
     this.cotizacionesService.getCurrencies().subscribe(currencies => {
-      this.currencieList = Object.keys(currencies);
+      this.listaMonedas = Object.keys(currencies);
     });
   }
 
@@ -58,16 +56,17 @@ export class CotizacionComponent implements OnInit {
       .pipe(
         delay(2000),
         finalize(() => {
-          this.mostrarResultado = true;
           this.isLoading = false;
         })
       )
       .subscribe( result => {
-        this.cotizacionResult = result;
-        this.cotizacionResult.ratesKey = Object.keys(result.rates);
-        this.cotizacionResult.ratesValue =  Object.values(result.rates);
+        this.mostrarResultado = true;
+        this.resultadoCotizacion = result;
+        this.resultadoCotizacion.ratesKey = Object.keys(result.rates);
+        this.resultadoCotizacion.ratesValue =  Object.values(result.rates);
       }, err => {
-        this.snack.openSnackBar(this.message,"","Error");
+        this.mostrarResultado = false;
+        this.snack.openSnackBar(this.mensajeError,"","Error");
       })
     }
   }

@@ -5,27 +5,24 @@ import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
 })
-export class SidenavComponent implements OnDestroy{
+export class SidenavComponent implements OnDestroy {
+  sideBarItems = [
+    { label: 'Inicio', icon: 'home', url: './home' },
+    { label: 'Cotizaciones', icon: 'calculate', url: './cotizacion' }
+  ];
 
   private mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+  private _mobileQueryListener: (ev: MediaQueryListEvent) => any;
+
 
   constructor( private changeDetectorRef: ChangeDetectorRef,
-               private media: MediaMatcher ){
-
-    this.mobileQuery = media.matchMedia('(max-width: 800px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+               private media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 890px)');
+    this._mobileQueryListener = (ev: MediaQueryListEvent) => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', this._mobileQueryListener);
-
   }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
-
-  public sideBarItems= [
-    { label: 'Inicio', icon: 'home', url:'./home' },
-    { label: 'Cotizaciones', icon: 'calculate', url:'./cotizacion' }
-  ]
-
 }
